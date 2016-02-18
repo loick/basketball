@@ -5,6 +5,8 @@ import Player from './player';
 const delay_base = 50;
 const delay_inc = 70;
 
+const defaultZ = -200;
+
 export default class Ground extends React.Component
 {
     state =
@@ -12,13 +14,30 @@ export default class Ground extends React.Component
         rotation : 0,
         team: [],
         current_player_focus : null,
-        world_modifier: {}
+        world_modifier: {
+            transform : {
+                x : 0,
+                y : 0,
+                z : -90
+            }
+        }
     }
 
     componentDidMount()
     {
         this.setState({'team' : this.props.team});
         setTimeout(::this.animatePlayers, 1000);
+
+        setTimeout(() => {
+            this.setState({'world_modifier' : {
+                opacity   :  1,
+                transform : {
+                    x : 0,
+                    y : 0,
+                    z : defaultZ
+                }
+            }});
+        },400);
     }
 
     componentWillReceiveProps(props)
@@ -71,30 +90,34 @@ export default class Ground extends React.Component
         },delay);
     }
 
-    onPlayerClick(id, x= 0, y = 0)
+    onPlayerClick(id, x= 0, z = 0, y = 0)
     {
+        let world_modifier = this.state.world_modifier;
+
         let focus = this.state.current_player_focus === id ? null : id;
         x = (focus === null) ? 0 : x;
-        y = (focus === null) ? 0 : y;
+        z = (focus === null) ? defaultZ : z;
+
+        world_modifier.transform = { x, y, z };
 
         this.setState(
         {
             'current_player_focus' : focus,
-            'world_modifier' : { x, y }
+            'world_modifier' : world_modifier
         });
     }
 
     render()
     {
-        let style_stage = {};
-        style_stage.transform = `translateX(${this.state.world_modifier.x}px) translateY(${this.state.world_modifier.y}px) translateZ(0px)`;
+        let style_world = this.state.world_modifier;
+        style_world.transform = `translateX(${style_world.transform.x}px) translateY(${style_world.transform.y}px) translateZ(${style_world.transform.z}px)`;
 
         let style_terrain = {};
         style_terrain.transform = `rotateY(${this.state.rotation}deg)`;
 
         return(
-            <div className="stage" style={ style_stage }>
-                <div className="world">
+            <div className="stage">
+                <div className="world" style={ style_world }>
                     <div className="team">
                         {
                             this.state.team.map( (datas, index) =>

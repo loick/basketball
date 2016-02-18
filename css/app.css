@@ -61,7 +61,7 @@ header
 
 .world {
   	position: absolute;
-  	top: 75px;
+  	top: 25px;
   	left: 50%;
   	margin-left: -calc($field-x / 2);
   	width: $field-x;
@@ -69,20 +69,8 @@ header
   	transform-style: preserve-3d;
   	z-index: 1;
     backface-visibility: hidden;
-    animation-name: dropWorld;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: 0.8s;
-    animation-delay:0.4s;
-  	opacity:0;
-    animation-fill-mode: forwards;
-
-  &.flipped {
-    transform: translateZ(-calc($field-y / 4)) rotateY(180deg);
-  }
-  &.switched {
-    transform: translateZ(250px) rotateY(30deg) translateX(60px) translateY(-200px);
-  }
+    opacity: 0;
+    transition:all 0.8s ease-in-out;
 }
 
 .toggle {
@@ -625,18 +613,6 @@ header
         transform:translateY(0);
     }
 }
-
-@keyframes dropWorld {
-    0% {
-        opacity: 0;
-        transform:translateY(-90px) translateY(0px);
-    }
-    100% {
-        opacity: 1;
-        transform:translateZ(-200px) translateY(0px);
-    }
-}
-
 
 @keyframes dropLoader {
     10% {

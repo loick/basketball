@@ -9,39 +9,41 @@ export default class Player extends React.Component
 		{
 			case 1 :
 				coords.x = 100;
-				coords.y = 170;
+				coords.z = 170;
 				break;
 			case 2 :
 				coords.x = 180;
-				coords.y = 365;
+				coords.z = 365;
 				break;
 			case 3 :
 				coords.x = -150;
-				coords.y = 200;
+				coords.z = 200;
 				break;
 			case 4 :
 				coords.x = -115;
-				coords.y = 370;
+				coords.z = 370;
 				break;
 			case 5 :
 				coords.x = 10;
-				coords.y = 340;
+				coords.z = 340;
 				break;
 			default :
 				coords.x = 0;
-				coords.y = 0;
+				coords.z = 0;
 		}
 
-		if(this.props.animateX){ coords.x += this.props.animateX }
-		if(this.props.animateY){ coords.y += this.props.animateY }
+		if(this.props.animateY)
+		{
+			coords.z += this.props.animateY;
+		}
 
 		return coords;
 	}
 
 	onClick()
 	{
-		let {x,y} = this.position();
-		this.props.onClick(this.props.id, -x, - Math.ceil((y - 200 )/2));
+		let {x,z} = this.position();
+		this.props.onClick(this.props.id, -x-10, - z);
 	}
 
 	renderCard()
@@ -85,10 +87,10 @@ export default class Player extends React.Component
 			class_name.push('active');
 		}
 
-		let {x,y} = this.position();
+		let {x,z} = this.position();
 
 		let style = this.props.style || {};
-		style.transform = 'translateX(' + x + 'px) translateY(0px) translateZ(' + y + 'px)';
+		style.transform = 'translateX(' + x + 'px) translateY(0px) translateZ(' + z + 'px)';
 
 		return(
 			<div className={class_name.join(' ')} style={style} onClick={::this.onClick}>
