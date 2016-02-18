@@ -2,6 +2,21 @@ import React from 'react';
 
 export default class Player extends React.Component
 {
+	componentDidMount()
+    {
+        document.addEventListener('click', ::this.handleDocumentClick)
+    }
+
+    handleDocumentClick(event)
+    {
+    	const player = this.refs.player.getDOMNode()
+
+    	if (!player.contains(event.target) && this.props.current)
+    	{
+    		this.onClick();
+	    }
+    }
+
 	position()
 	{
 		let coords = {};
@@ -93,7 +108,12 @@ export default class Player extends React.Component
 		style.transform = 'translateX(' + x + 'px) translateY(0px) translateZ(' + z + 'px)';
 
 		return(
-			<div className={class_name.join(' ')} style={style} onClick={::this.onClick}>
+			<div
+				ref='player'
+				className={class_name.join(' ')}
+				style={style}
+				onClick={!this.props.current && ::this.onClick}
+			>
 				{ this.props.current && this.renderCard() }
 				<div className="player__img">
 					<img src={"images/players/" + this.props.asset}/>

@@ -34,5 +34,4 @@ But mainly :
 - Promises on switch button click instead of timeouts
 - Remove player focus on rotate
 - Import / API to get the datas of the players
-- On click on the DOM
 - Spider Graph with the stats of the players

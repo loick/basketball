@@ -361,7 +361,6 @@ header
     transform-style: preserve-3d;
     backface-visibility: hidden;
     transition: all 0.2s;
-    cursor: pointer;
     opacity:0;
     outline:none;
 
@@ -481,6 +480,15 @@ header
       }
     }
   }
+
+  &:not(.active){
+    .player__img,
+    .player__label
+    {
+      cursor:pointer;
+    }
+  }
+
   .player__img {
     position: absolute;
     top: 0;
@@ -518,7 +526,7 @@ header
     text-transform: uppercase;
     transition: opacity 0.2s;
     z-index: 2;
-    pointer-events: none;
+
     span {
       background-color: rgba(16, 20, 30, 0.9);
       color: white;
