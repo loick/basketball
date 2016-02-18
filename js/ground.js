@@ -107,6 +107,25 @@ export default class Ground extends React.Component
         });
     }
 
+    renderTeamGround(reverse = '')
+    {
+        return (
+            <div className={`team_ground ${reverse}`}>
+                <div className="three_point_line">
+                    <div className="arc field__line"></div>
+                    <div className="lines"></div>
+                </div>
+
+                <div className="raquette">
+                    <div className="first_line"></div>
+                    <div className="second_line"></div>
+                    <div className="free_throw"></div>
+                    <div className="top_free_throw"></div>
+                </div>
+            </div>
+        )
+    }
+
     render()
     {
         let style_world = this.state.world_modifier;
@@ -138,33 +157,10 @@ export default class Ground extends React.Component
 
                             <div className="field__line field__line--circle"></div>
 
-                            <div className="team_ground team-1">
-                                <div className="three_point_line">
-                                    <div className="arc field__line"></div>
-                                    <div className="lines"></div>
-                                </div>
+                            { this.renderTeamGround() }
 
-                                <div className="raquette">
-                                    <div className="first_line"></div>
-                                    <div className="second_line"></div>
-                                    <div className="free_throw"></div>
-                                    <div className="top_free_throw"></div>
-                                </div>
-                            </div>
+                            { this.renderTeamGround('reverse') }
 
-                            <div className="team_ground team-2">
-                                <div className="three_point_line">
-                                    <div className="arc field__line"></div>
-                                    <div className="lines"></div>
-                                </div>
-
-                                <div className="raquette">
-                                    <div className="first_line"></div>
-                                    <div className="second_line"></div>
-                                    <div className="free_throw"></div>
-                                    <div className="top_free_throw"></div>
-                                </div>
-                            </div>
                         </div>
 
                         <div className="field__side field__side--front"></div>

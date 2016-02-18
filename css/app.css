@@ -203,7 +203,7 @@ header
     width: 100%;
 }
 
-.team_ground.team-2
+.team_ground.reverse
 {
     transform: rotate(180deg);
 }
