@@ -23,15 +23,10 @@ That's it :)
 - Webpack
 - PostCSS
 
-But mainly :
-
-- NO jQuery
-- NO SASS
-
 
 ##TODO
 
 - Promises on switch button click instead of timeouts
-- Remove player focus on rotate
+- Remove player focus before switching rotate (currently at the same tume)
 - Import / API to get the datas of the players
 - Spider Graph with the stats of the players

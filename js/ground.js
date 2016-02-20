@@ -9,6 +9,12 @@ const defaultZ = -200;
 
 export default class Ground extends React.Component
 {
+    static propTypes =
+    {
+        display: React.PropTypes.number,
+        team: React.PropTypes.array.isRequired
+    }
+
     state =
     {
         rotation : 0,
