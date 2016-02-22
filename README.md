@@ -29,4 +29,6 @@ That's it :)
 - Promises on switch button click instead of timeouts
 - Remove player focus before switching rotate (currently at the same tume)
 - Import / API to get the datas of the players
-- Spider Graph with the stats of the players
+- Add the spidergraph to the experiment
+- Enable n graph stats on the same spidergraph (current : only 1)
+- Different scale on each branch of the spider graph (current : same for each branch)
