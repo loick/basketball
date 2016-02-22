@@ -22,8 +22,8 @@ class Stage extends Component
         test : [0,0,0,0,0,0],
     }
 
-    onChange(display) {
-        this.setState({ 'current_display' : display })
+    onChange(current_display) {
+        this.setState({ current_display })
     }
 
     componentDidMount() {
@@ -52,7 +52,7 @@ class Stage extends Component
             Math.floor(5 * Math.random() + 1),
             Math.floor(5 * Math.random() + 1),
         ]
-        this.setState({ 'test' : test })
+        this.setState({test})
     }
 
     render() {

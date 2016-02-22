@@ -151,7 +151,7 @@ export default class SpiderChart extends Component
         g.selectAll('.radar-point')
             .style('fill',this.hexToRgba(this.props.mainColor,0.8))
             .data((d) => d)
-            .on("mouseover", function (d) {
+            .on("mouseover", (d) => {
                 d3.select("#tooltip")
                     .style("left", d3.event.pageX + "px")
                     .style("top", d3.event.pageY + "px")
@@ -159,7 +159,7 @@ export default class SpiderChart extends Component
                     .select("#value")
                     .text(d)
             })
-            .on("mouseout", function (d) {
+            .on("mouseout", (d) => {
                 d3.select("#tooltip")
                     .style("opacity", 0)
             })
@@ -178,7 +178,7 @@ export default class SpiderChart extends Component
         let width = this.props.width - 2 * padding
 
         this.setState({
-            'width'  : width,
+            width,
             'radius' : width * 0.5,
         },() =>
         {

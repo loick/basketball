@@ -85,7 +85,7 @@ export default class Ground extends Component
             team[player_id].style ={ opacity: drop ? 1 : 0 }
             team[player_id].animateY = drop ? 40 : 0
 
-            this.setState({'team' : team})
+            this.setState({team})
 
         },delay)
     }

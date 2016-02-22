@@ -6,7 +6,7 @@ export default class Switch extends Component
     data: React.PropTypes.array,
     selectedIndex: React.PropTypes.number,
     onChange: React.PropTypes.func,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
   }
 
  	static defaultProps = {
