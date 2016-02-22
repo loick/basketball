@@ -1,68 +1,62 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class Player extends Component
 {
-	componentDidMount()
-    {
+	componentDidMount() {
         document.addEventListener('click', ::this.handleDocumentClick)
     }
 
-    handleDocumentClick(event)
-    {
-    	const player = this.refs.player.getDOMNode()
+    handleDocumentClick(event) {
 
-    	if (!player.contains(event.target) && this.props.current)
+    	if (this.props.current && !this.refs.player.getDOMNode().contains(event.target))
     	{
-    		this.onClick();
+    		this.onClick()
 	    }
     }
 
-	position()
-	{
-		let coords = {};
+	position() {
+		let coords = {}
 		switch(this.props.pos)
 		{
 			case 1 :
-				coords.x = 100;
-				coords.z = 170;
-				break;
+				coords.x = 100
+				coords.z = 170
+				break
 			case 2 :
-				coords.x = 180;
-				coords.z = 365;
-				break;
+				coords.x = 180
+				coords.z = 365
+				break
 			case 3 :
-				coords.x = -150;
-				coords.z = 200;
-				break;
+				coords.x = -150
+				coords.z = 200
+				break
 			case 4 :
-				coords.x = -115;
-				coords.z = 370;
-				break;
+				coords.x = -115
+				coords.z = 370
+				break
 			case 5 :
-				coords.x = 10;
-				coords.z = 340;
-				break;
+				coords.x = 10
+				coords.z = 340
+				break
 			default :
-				coords.x = 0;
-				coords.z = 0;
+				coords.x = 0
+				coords.z = 0
 		}
 
 		if(this.props.animateY)
 		{
-			coords.z += this.props.animateY;
+			coords.z += this.props.animateY
 		}
 
-		return coords;
+		return coords
 	}
 
-	onClick()
-	{
-		let {x,z} = this.position();
-		this.props.onClick(this.props.id, -x-10, - z);
+	onClick() {
+		let {x,z} = this.position()
+		this.props.onClick(this.props.id, -x-10, - z)
 	}
 
-	renderCard()
-	{
+	renderCard() {
 		return(
 			<div className="player__card">
 				<h3>{ this.props.name }</h3>
@@ -94,18 +88,16 @@ export default class Player extends Component
 		)
 	}
 
-	render()
-	{
-		let class_name = ['player'];
+	render() {
+		let class_name = ['player']
+
 		if(this.props.current)
-		{
-			class_name.push('active');
-		}
+			class_name.push('active')
 
-		let {x,z} = this.position();
+		let {x,z} = this.position()
 
-		let style = this.props.style || {};
-		style.transform = 'translateX(' + x + 'px) translateY(0px) translateZ(' + z + 'px)';
+		let style = this.props.style || {}
+		style.transform = `translateX(${x}px) translateY(0px) translateZ(${z}px)`
 
 		return(
 			<div
@@ -122,6 +114,6 @@ export default class Player extends Component
 					<span>{ this.props.name }</span>
 				</div>
 			</div>
-		);
+		)
 	}
 }

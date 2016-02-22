@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class Switch extends Component
 {
-  static propTypes =
-  {
+  static propTypes = {
     data: React.PropTypes.array,
     selectedIndex: React.PropTypes.number,
     onChange: React.PropTypes.func,
     className: React.PropTypes.string
   }
 
- 	static defaultProps =
- 	{
+ 	static defaultProps = {
   	data: [{label: 'on', value: 'on'}, {label: 'off', value: 'off'}],
   	selectedIndex: 0,
   	onChange: () => {},
-  	className: ''
+  	className: '',
 	}
 
-	state =
-	{
+	state = {
   	selectedIndex: 0,
   	cursorStyle: {},
-  	value: null
+  	value: null,
 	}
 
-	componentWillMount()
-	{
+	componentWillMount() {
   	this.setState({selectedIndex: this.props.selectedIndex, value: this.props.data[this.props.selectedIndex].value})
 	}
 
-	componentDidMount()
-	{
+	componentDidMount() {
   	this.select(this.state.selectedIndex)
 	}
 
-	select(index)
-	{
+	select(index) {
   	this.setState({
     		selectedIndex: index,
     		cursorStyle: this.getCursorStyle(index),
@@ -47,24 +41,21 @@ export default class Switch extends Component
   	this.props.onChange(this.props.data[index].value)
 	}
 
-	handleClick()
-	{
+	handleClick() {
   	this.select(this.state.selectedIndex === 1 ? 0 : 1)
 	}
 
-	getCursorStyle(index)
-	{
+	getCursorStyle(index) {
   	index = index === 1 ? 0 : 1
   	let selected = React.findDOMNode(this.refs[`choice-${index}`])
 
   	return {left: selected.offsetLeft, width: selected.offsetWidth}
 	}
 
-	render()
-	{
-  	let data0 = this.props.data[0];
-  	let data1 = this.props.data[1];
-  	let className = `${this.props.className} ${this.state.off ? 'toggle-off' : ''}`;
+	render() {
+  	let data0 = this.props.data[0]
+  	let data1 = this.props.data[1]
+  	let className = `${this.props.className} ${this.state.off ? 'toggle-off' : ''}`
 
   	return (
   		<div style={ this.props.style }>

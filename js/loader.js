@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class Loader extends Component
 {
-    static propTypes =
-    {
+    static propTypes = {
         loaded: React.PropTypes.bool,
-        title: React.PropTypes.string
+        title: React.PropTypes.string,
     }
 
-    static defaultProps =
-    {
+    static defaultProps = {
         title : 'loading',
-        loaded : false
+        loaded : false,
     }
 
-    render()
-    {
-        let loaded = this.props.loaded;
+    render() {
+        let loaded = this.props.loaded
 
         return(
             <div className={ !loaded ? 'loading' : 'loaded' }>
@@ -26,6 +23,6 @@ export default class Loader extends Component
                     this.props.children
                 }
             </div>
-        );
+        )
     }
 }

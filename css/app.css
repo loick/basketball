@@ -1,15 +1,4 @@
-*
-{
-    box-sizing: border-box;
-}
-
-html, body
-{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin:0;
-}
+@import url('reset.css');
 
 body
 {
@@ -661,17 +650,20 @@ header
 
 
 
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 60px;
-  height: 28px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
+#tooltip {
+    position: absolute;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+#tooltip.hidden {
+    opacity: 0;
+}
+#tooltip p {
+    font-size: 14px;
+    line-height: 16px;
 }
 
 

@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Ground from './ground';
-import Switch from './switch';
-import Loader from './loader';
-import SpiderChart from './spiderchart';
+import Ground from './ground'
+import Switch from './switch'
+import Loader from './loader'
+import SpiderChart from './spiderchart'
 
-import datas from './datas_players.js';
+import datas from './datas_players.js'
 
-import '../css/app.css';
+import '../css/app.css'
 
 class Stage extends Component
 {
-    state =
-    {
+    state = {
         players :
         {
             starters : [],
@@ -20,29 +19,27 @@ class Stage extends Component
         },
         current_display : 0,
         isLoaded : false,
-        test : [0,0,0,0,0,0]
+        test : [0,0,0,0,0,0],
     }
 
-    onChange(display)
-    {
+    onChange(display) {
         this.setState({ 'current_display' : display })
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         // PROMISE API CALL for the players instead of the import.
         setTimeout(() => {
             this.setState(
             {
                 players : {
                     'starters' : datas.splice(0,5),
-                    'bench' : datas
+                    'bench' : datas,
                 },
                 isLoaded : true
-            });
-        }, 2000 );
+            })
+        }, 2000 )
 
-        setInterval(::this.testSpiderChart,2000);
+        setInterval(::this.testSpiderChart,2000)
     }
 
     testSpiderChart() {
@@ -53,17 +50,15 @@ class Stage extends Component
             Math.floor(5 * Math.random() + 1),
             Math.floor(5 * Math.random() + 1),
             Math.floor(5 * Math.random() + 1),
-            Math.floor(5 * Math.random() + 1)
-        ];
-        this.setState({ 'test' : test });
+            Math.floor(5 * Math.random() + 1),
+        ]
+        this.setState({ 'test' : test })
     }
 
-    render()
-    {
-        let team = (this.state.current_display === 0) ? this.state.players.starters : this.state.players.bench;
+    render() {
+        let team = (this.state.current_display === 0) ? this.state.players.starters : this.state.players.bench
         return(
             <section>
-
                 <Loader title="Chargement" loaded={this.state.isLoaded}>
                     <header>
                         <h1>Basketball</h1>
@@ -75,8 +70,8 @@ class Stage extends Component
                 <SpiderChart axesColor="#404040" bgColor="#FFF" mainColor="#FB0217" width="500" datas={this.state.test} />
                 */ }
             </section>
-        );
+        )
     }
 }
 
-React.render(<Stage />, document.getElementById('react-render'));
+React.render(<Stage />, document.getElementById('react-render'))
