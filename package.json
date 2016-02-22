@@ -15,6 +15,7 @@
     "autoprefixer": "^6.3.1",
     "css-loader": "^0.23.1",
     "cssnano": "^3.4.0",
+    "d3": "^3.5.16",
     "extract-text-webpack-plugin": "0.9.1",
     "file-loader": "^0.8.5",
     "http-server": "~0.8.0",

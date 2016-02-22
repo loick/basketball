@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Player from './player';
 
@@ -7,7 +7,7 @@ const delay_inc = 70;
 
 const defaultZ = -200;
 
-export default class Ground extends React.Component
+export default class Ground extends Component
 {
     static propTypes =
     {

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class Loader extends React.Component
+export default class Loader extends Component
 {
+    static propTypes =
+    {
+        loaded: React.PropTypes.bool,
+        title: React.PropTypes.string
+    }
+
+    static defaultProps =
+    {
+        title : 'loading',
+        loaded : false
+    }
+
     render()
     {
         let loaded = this.props.loaded;
