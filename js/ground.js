@@ -3,9 +3,8 @@ import React, { Component } from 'react'
 import Player from './player'
 
 const delay_base = 50
-const delay_inc = 70
-
-const defaultZ = -200
+const delay_inc  = 70
+const defaultZ   = -200
 
 export default class Ground extends Component
 {
@@ -110,11 +109,11 @@ export default class Ground extends Component
         return (
             <div className={`team_ground ${reverse}`}>
                 <div className="three_point_line">
-                    <div className="arc field__line"></div>
+                    <div className="arc"></div>
                     <div className="lines"></div>
                 </div>
 
-                <div className="raquette">
+                <div className="paint">
                     <div className="first_line"></div>
                     <div className="second_line"></div>
                     <div className="free_throw"></div>
@@ -146,13 +145,13 @@ export default class Ground extends Component
                             )
                         }
                     </div>
-                    <div className="terrain" style={ style_terrain }>
+                    <div className="court" style={ style_terrain }>
 
-                        <div className="field ground">
+                        <div className="field">
 
-                            <div className="field__line field__line--outline"></div>
+                            <div className="field__line--outline"></div>
 
-                            <div className="field__line field__line--circle"></div>
+                            <div className="field__line--circle"></div>
 
                             { this.renderTeamGround() }
 

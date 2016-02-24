@@ -52,15 +52,6 @@ table {
     box-sizing:border-box;
 }
 
-/* IE clear cross */
-input::-ms-clear {
-    display:none;
-}
-
-/* text size adjusting */
-body {
-    text-size-adjust:100%;
-}
 
 /* hr */
 hr {

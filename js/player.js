@@ -3,14 +3,13 @@ import React, { Component } from 'react'
 export default class Player extends Component
 {
 	componentDidMount() {
-        document.addEventListener('click', ::this.handleDocumentClick)
-    }
+    document.addEventListener('click', ::this.handleDocumentClick)
+  }
 
-    handleDocumentClick(event) {
-
-    	if (this.props.current && !this.refs.player.getDOMNode().contains(event.target))
-			this.onClick()
-    }
+  handleDocumentClick(event) {
+  	if (this.props.current && !this.refs.player.getDOMNode().contains(event.target))
+		  this.onClick()
+  }
 
 	position() {
 		let coords = {}
@@ -42,16 +41,14 @@ export default class Player extends Component
 		}
 
 		if(this.props.animateY)
-		{
 			coords.z += this.props.animateY
-		}
 
 		return coords
 	}
 
 	onClick() {
 		let {x,z} = this.position()
-		this.props.onClick(this.props.id, -x-10, - z)
+		this.props.onClick(this.props.id, - x - 10, - z)
 	}
 
 	renderCard() {
@@ -72,7 +69,7 @@ export default class Player extends Component
 						<br/>{ this.props.origin }
 					</li>
 				</ul>
-				<ul className="player__card__list player__card__list--last">
+				<ul className="player__card__list">
 					<li>
 						<span>Matchs LNB</span>
 						<br/>{ this.props.lnb }

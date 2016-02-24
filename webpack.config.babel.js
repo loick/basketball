@@ -34,10 +34,8 @@ const conf = {
             { test: /\.jpg$/, loader: "file-loader" }
         ]
     },
-    plugins: [ new ExtractTextPlugin('css/app.css', {
-            allChunks: true
-        }) ],
-    postcss: function () {
+    plugins: [ new ExtractTextPlugin('css/app.css', { allChunks: true }) ],
+    postcss() {
         return [
             vars({ variables : variables }),
             calc,

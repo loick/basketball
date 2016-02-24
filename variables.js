@@ -10,7 +10,6 @@ const variables =
 	'sliderColor'		: '#DFDFDF',
 
 	// Palette
-	'body-bg-color'      : '#2a437c',
 	'colors-text-def'    : '#333',
 	'colors-text-med'    : '#777',
 	'colors-text-lt'     : '#AAA',
