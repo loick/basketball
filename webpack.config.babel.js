@@ -5,6 +5,7 @@ import calc from 'postcss-calc';
 import nest from 'postcss-nested';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
+
 import variables from './variables';
 
 const conf = {
@@ -20,6 +21,9 @@ const conf = {
         filename: 'public/[name].js'
     },
     module: {
+        preLoaders: [
+            { test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/ }
+        ],
         loaders: [
             {
                 test: /\.js$/,
@@ -31,7 +35,7 @@ const conf = {
                 loader: ExtractTextPlugin.extract('style', 'css!postcss')
             },
             { test: /\.png$/, loader: "url-loader?limit=100000" },
-            { test: /\.jpg$/, loader: "file-loader" }
+            { test: /\.jpg$/, loader: "file-loader" },
         ]
     },
     plugins: [ new ExtractTextPlugin('css/app.css', { allChunks: true }) ],
@@ -43,6 +47,9 @@ const conf = {
             autoprefixer({ browsers: ['last 2 versions'] }),
             cssnano
         ];
+    },
+    eslint: {
+        configFile: '.eslintrc'
     }
 };
 

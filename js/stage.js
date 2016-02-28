@@ -70,6 +70,7 @@ class Stage extends Component
     ]
     return(
       <section>
+        { /*
         <Loader loaded={this.state.isLoaded}>
           <header>
             <h1>Basketball</h1>
@@ -77,9 +78,8 @@ class Stage extends Component
           </header>
          <Ground display={this.state.switchState} team={team} />
         </Loader>
-        { /*
-        <SpiderChart axesColor="#404040" bgColor="#FFF" mainColor="#FB0217" width="500" datas={this.state.test} />
         */ }
+        <SpiderChart axesColor="#404040" bgColor="#FFF" mainColor="#FB0217" width="500" datas={this.state.spiderChart} />
       </section>
     )
   }
