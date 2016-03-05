@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 import Player from './player'
 
-const delay_base = 50
-const delay_inc  = 70
-const defaultZ   = -200
+const delayBase = 50
+const delayInc  = 70
+const defaultZ  = -200
 
 export default class Ground extends Component
 {
@@ -17,35 +17,36 @@ export default class Ground extends Component
     rotation             : 0,
     team                 : [],
     current_player_focus : null,
-    world_modifier       : {
+    worldModifier        : {
       transform : {
         x : 0,
         y : 0,
         z : -90,
-      }
-    }
+      },
+    },
   }
 
   componentDidMount() {
-    this.setState({'team' : this.props.team})
+    this.setState({ team: this.props.team })
     setTimeout(::this.animatePlayers, 1000)
 
     setTimeout(() => {
-      this.setState({'world_modifier' : {
-        opacity   :  1,
-        transform : {
-          x : 0,
-          y : 0,
-          z : defaultZ,
-        }
-      }})
-    },400)
+      this.setState({
+        worldModifier : {
+          opacity   :  1,
+          transform : {
+            x : 0,
+            y : 0,
+            z : defaultZ,
+          },
+        },
+      })
+    }, 400)
   }
 
   componentWillReceiveProps(props) {
     // Change team
-    if(this.props.display !== props.display)
-    {
+    if (this.props.display !== props.display) {
       // TODO : PROMISES
       // Remove Current Players
       this.animatePlayers(0)
@@ -55,50 +56,51 @@ export default class Ground extends Component
         // Change players
         // Rotate the ground
         this.setState(
-        {
-          'team'     : props.team,
-          'rotation' : (props.display === 0) ? 0 : 180,
-        },() => {
-          setTimeout(() => {
-            // Display players
-            this.animatePlayers(1)
-          },500)
-        })
-      },500)
+          {
+            team     : props.team,
+            rotation : (props.display === 0) ? 0 : 180,
+          }, () => {
+            setTimeout(() => {
+              // Display players
+              this.animatePlayers(1)
+            }, 500)
+          })
+
+      }, 500)
     }
   }
 
   animatePlayers(drop = 1) {
-    for (let player_id in this.state.team) {
-      this.updatePlayerStyle(player_id, drop)
+    for (let playerId in this.state.team) {
+      this.updatePlayerStyle(playerId, drop)
     }
   }
 
-  updatePlayerStyle(player_id, drop) {
-    let delay = delay_base + player_id * delay_inc
-    let team = this.state.team
+  updatePlayerStyle(playerId, drop) {
+    const delay = delayBase + playerId * delayInc
+    const team = this.state.team
 
     setTimeout(() => {
-      team[player_id].style ={ opacity: drop ? 1 : 0 }
-      team[player_id].animateY = drop ? 40 : 0
+      team[playerId].style = { opacity: drop ? 1 : 0 }
+      team[playerId].animateY = drop ? 40 : 0
 
-      this.setState({team})
-    },delay)
+      this.setState({ team })
+    }, delay)
   }
 
-  onPlayerClick(id, x= 0, z = 0, y = 0) {
-    let world_modifier = this.state.world_modifier
+  onPlayerClick(id, x = 0, z = 0, y = 0) {
+    const worldModifier = this.state.worldModifier
 
-    let focus = this.state.current_player_focus === id ? null : id
+    const focus = this.state.current_player_focus === id ? null : id
+
     x = (focus === null) ? 0 : x
     z = (focus === null) ? defaultZ : z
 
-    world_modifier.transform = { x, y, z }
+    worldModifier.transform = { x, y, z }
 
-    this.setState(
-    {
-      'current_player_focus' : focus,
-      world_modifier
+    this.setState({
+      current_player_focus : focus,
+      worldModifier,
     })
   }
 
@@ -121,18 +123,18 @@ export default class Ground extends Component
   }
 
   render() {
-    let style_world = this.state.world_modifier
-    style_world.transform = `translateX(${style_world.transform.x}px) translateY(${style_world.transform.y}px) translateZ(${style_world.transform.z}px)`
+    const styleWorld = this.state.worldModifier
+    styleWorld.transform = `translateX(${styleWorld.transform.x}px) translateY(${styleWorld.transform.y}px) translateZ(${styleWorld.transform.z}px)`
 
-    let style_terrain = {}
-    style_terrain.transform = `rotateY(${this.state.rotation}deg)`
+    const styleTerrain = {}
+    styleTerrain.transform = `rotateY(${this.state.rotation}deg)`
 
-    return(
+    return (
       <div className="stage">
-        <div className="world" style={ style_world }>
+        <div className="world" style={ styleWorld }>
           <div className="team">
             {
-              this.state.team.map( (datas, index) =>
+              this.state.team.map((datas, index) =>
                 <Player
                   {...datas}
                   id={index}
@@ -142,7 +144,7 @@ export default class Ground extends Component
               )
             }
           </div>
-          <div className="court" style={ style_terrain }>
+          <div className="court" style={ styleTerrain }>
             <div className="field">
               <div className="field__line--outline"></div>
               <div className="field__line--circle"></div>
