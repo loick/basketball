@@ -12,7 +12,8 @@
 		        "afterColon": true,
 		        "align": "colon"
 		    }
-		}]
+		}],
+		"no-multi-spaces" : [2, { exceptions: { "VariableDeclarator": true } }]
 	},
 	"extends": "airbnb",
 }

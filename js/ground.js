@@ -14,10 +14,10 @@ export default class Ground extends Component
   }
 
   state = {
-    rotation             : 0,
-    team                 : [],
-    current_player_focus : null,
-    worldModifier        : {
+    rotation           : 0,
+    team               : [],
+    currentPlayerFocus : null,
+    worldModifier      : {
       transform : {
         x : 0,
         y : 0,
@@ -33,7 +33,7 @@ export default class Ground extends Component
     setTimeout(() => {
       this.setState({
         worldModifier : {
-          opacity   :  1,
+          opacity   : 1,
           transform : {
             x : 0,
             y : 0,
@@ -48,10 +48,9 @@ export default class Ground extends Component
     // Change team
     if (this.props.display !== props.display) {
       // TODO : PROMISES
-      // Remove Current Players
       this.animatePlayers(0)
 
-      setTimeout(() => {
+      setTimeout(() =>
 
         // Change players
         // Rotate the ground
@@ -59,20 +58,35 @@ export default class Ground extends Component
           {
             team     : props.team,
             rotation : (props.display === 0) ? 0 : 180,
-          }, () => {
+          }, () =>
             setTimeout(() => {
               // Display players
               this.animatePlayers(1)
             }, 500)
-          })
+          )
 
-      }, 500)
+      , 500)
     }
   }
 
+  onPlayerClick(id, playerX = 0, playerZ = 0, y = 0) {
+    const worldModifier = this.state.worldModifier
+
+    const currentPlayerFocus = this.state.currentPlayerFocus === id ? null : id
+
+    const x = (currentPlayerFocus === null) ? 0 : playerX
+    const z = (currentPlayerFocus === null) ? defaultZ : playerZ
+
+    worldModifier.transform = { x, y, z }
+
+    this.setState({ currentPlayerFocus, worldModifier })
+  }
+
   animatePlayers(drop = 1) {
-    for (let playerId in this.state.team) {
-      this.updatePlayerStyle(playerId, drop)
+    for (const playerId in this.state.team) {
+      if ({}.hasOwnProperty.call(this.state.team, playerId)) {
+        this.updatePlayerStyle(playerId, drop)
+      }
     }
   }
 
@@ -86,22 +100,6 @@ export default class Ground extends Component
 
       this.setState({ team })
     }, delay)
-  }
-
-  onPlayerClick(id, x = 0, z = 0, y = 0) {
-    const worldModifier = this.state.worldModifier
-
-    const focus = this.state.current_player_focus === id ? null : id
-
-    x = (focus === null) ? 0 : x
-    z = (focus === null) ? defaultZ : z
-
-    worldModifier.transform = { x, y, z }
-
-    this.setState({
-      current_player_focus : focus,
-      worldModifier,
-    })
   }
 
   renderTeamGround(reverse = '') {
@@ -137,9 +135,10 @@ export default class Ground extends Component
               this.state.team.map((datas, index) =>
                 <Player
                   {...datas}
+                  key={index}
                   id={index}
                   onClick={::this.onPlayerClick}
-                  current={this.state.current_player_focus === index}
+                  current={this.state.currentPlayerFocus === index}
                 />
               )
             }

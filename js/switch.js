@@ -49,6 +49,16 @@ export default class Switch extends Component
     this.select(this.state.selectedIndex)
   }
 
+  getCursorStyle(index) {
+    const current = (index === 1) ? 0 : 1
+    const selected = ReactDOM.findDOMNode(this.refs[`choice-${current}`])
+
+    return {
+      left  : selected.offsetLeft,
+      width : selected.offsetWidth,
+    }
+  }
+
   select(index) {
     this.setState({
       selectedIndex : index,
@@ -64,16 +74,6 @@ export default class Switch extends Component
     this.select(this.state.selectedIndex === 1 ? 0 : 1)
   }
 
-  getCursorStyle(index) {
-    const current = (index === 1) ? 0 : 1
-    const selected = ReactDOM.findDOMNode(this.refs[`choice-${current}`])
-
-    return {
-      left  : selected.offsetLeft,
-      width : selected.offsetWidth,
-    }
-  }
-
   render() {
     const className = classNames('toggle', this.props.className, { 'toggle-off': this.state.off })
 
@@ -82,7 +82,7 @@ export default class Switch extends Component
           <div className={className} onClick={::this.handleClick}>
             {
               this.state.datas.map((data, i) =>
-                <span ref={`choice-${i}`} className="toggle__choice">{data.label}</span>
+                <span key={i} ref={`choice-${i}`} className="toggle__choice">{data.label}</span>
               )
             }
             <div className="toggle__slider" style={this.state.cursorStyle} />

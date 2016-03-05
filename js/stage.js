@@ -23,10 +23,6 @@ class Stage extends Component
     spiderChart : [0, 0, 0, 0, 0, 0],
   }
 
-  onChange(switchState) {
-    this.setState({ switchState })
-  }
-
   componentDidMount() {
     // AJAX API CALL for the players instead of the import.
     setTimeout(() => {
@@ -40,6 +36,10 @@ class Stage extends Component
     }, 2000)
 
     setInterval(::this.testSpiderChart, 2000)
+  }
+
+  onChange(switchState) {
+    this.setState({ switchState })
   }
 
   // Will move to player, testing mode here.
@@ -57,7 +57,7 @@ class Stage extends Component
   }
 
   render() {
-    const team = (this.state.switchState === 0) ? this.state.players.starters : this.state.players.bench
+    const team = (this.state.switchState === 0) ? 'starters' : 'bench'
     const switchData = [
       {
         label : 'Starting 5',
@@ -82,10 +82,16 @@ class Stage extends Component
               selectedIndex={this.state.current_display}
             />
           </header>
-         <Ground display={this.state.switchState} team={team} />
+         <Ground display={this.state.switchState} team={ this.state.players[team] } />
         </Loader>
         { /*
-        <SpiderChart axesColor="#404040" bgColor="#FFF" mainColor="#FB0217" width="500" datas={this.state.spiderChart} />
+          <SpiderChart
+            axesColor="#404040"
+            bgColor="#FFF"
+            mainColor="#FB0217"
+            width="500"
+            datas={this.state.spiderChart}
+          />
         */ }
       </section>
     )

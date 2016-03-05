@@ -32,7 +32,7 @@ export default class Player extends Component
   }
 
   handleDocumentClick(event) {
-    if (this.props.current && !this.refs.player.getDOMNode().contains(event.target)) {
+    if (this.props.current && !this.refs.player.contains(event.target)) {
       this.onClick()
     }
   }

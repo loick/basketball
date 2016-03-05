@@ -17,6 +17,7 @@ const axes = [
 export default class SpiderChart extends Component
 {
   static propTypes = {
+    datas     : React.PropTypes.array.isRequired,
     width     : React.PropTypes.string.isRequired,
     mainColor : React.PropTypes.string.isRequired,
     bgColor   : React.PropTypes.string.isRequired,
@@ -28,11 +29,19 @@ export default class SpiderChart extends Component
     width  : 0,
   }
 
+  componentDidMount() {
+    this.updateChart()
+  }
+
+  componentWillReceiveProps() {
+    this.updateChart()
+  }
+
   hexToRgba(hex, opacity = 1) {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
-    hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
+    const hexFormated = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
 
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexFormated)
 
     return result ? `rgba(${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)},${opacity})` : null
   }
@@ -104,110 +113,101 @@ export default class SpiderChart extends Component
         .attr('cy', 0)
         .attr('r', 5)
 
-      svg
-        .attr('width', this.state.width + 2 * padding)
-        .attr('height', this.state.width + 2 * padding)
+    svg
+      .attr('width', this.state.width + 2 * padding)
+      .attr('height', this.state.width + 2 * padding)
 
 
-      const g = svg.select('g')
-        .attr('transform', `translate(${padding + this.state.radius}, ${padding + this.state.radius})`)
+    const g = svg.select('g')
+      .attr('transform', `translate(${padding + this.state.radius}, ${padding + this.state.radius})`)
 
-      return g
-    }
+    return g
+  }
 
-    radar(el) {
-      const g = this.initialize(el)
+  radar(el) {
+    const g = this.initialize(el)
 
-      g.selectAll('.radar-axis-level')
-        .attr('r', (d) => this.state.radius / domain[1] * d)
+    g.selectAll('.radar-axis-level')
+      .attr('r', (d) => this.state.radius / domain[1] * d)
 
-      g.selectAll('.radar-axis-line')
-        .attr('x2', (d, i) => {
-          return this.rScale(domain[1] * 1.025) * Math.cos(this.slice(i) - Math.PI * 0.5)
-        })
-        .attr('y2', (d, i) => {
-          return this.rScale(domain[1] * 1.025) * Math.sin(this.slice(i) - Math.PI * 0.5)
-        })
-
-      g.selectAll('.radar-axis-label')
-        .attr('x', (d, i) => {
-          return this.rScale(domain[1] * 1.15) * Math.cos(this.slice(i) - Math.PI * 0.5)
-        })
-        .attr('y', (d, i) => {
-          return this.rScale(domain[1] * 1.15) * Math.sin(this.slice(i) - Math.PI * 0.5)
-        })
-        .attr('text-anchor', function() {
-          const x = d3.select(this).attr('x')
-          return (x > 1) ? 'start' : (x < -1) ? 'end' : 'middle'
-        })
-
-      g.select('.radar-area')
-        .style('fill', this.hexToRgba(this.props.mainColor, 0.6))
-        .transition()
-          .duration(transition)
-          .ease('cubic-out')
-          .attr('d', (d) => this.blob(d))
-
-      g.selectAll('.radar-point')
-        .style('fill', this.hexToRgba(this.props.mainColor, 0.8))
-        .data((d) => d)
-        .on('mouseover', (d) => {
-          d3.select('tooltip')
-            .style('left', d3.event.pageX + 'px')
-            .style('top', d3.event.pageY + 'px')
-            .style('opacity', 1)
-            .select('#value')
-            .text(d)
-        })
-        .on("mouseout", () => {
-          d3.select('#tooltip')
-            .style("opacity", 0)
-        })
-        .transition()
-          .duration(transition)
-          .ease('cubic-out')
-          .attr('cx', (d, i) => {
-            return this.rScale(d) * Math.cos(this.slice(i) - Math.PI * 0.5)
-          })
-          .attr('cy', (d, i) => {
-            return this.rScale(d) * Math.sin(this.slice(i) - Math.PI * 0.5)
-          })
-    }
-
-    updateChart() {
-      const width = this.props.width - 2 * padding
-
-      this.setState({
-        width,
-        radius : width * 0.5,
-      }, () =>
-      {
-        const chart = d3
-          .select(ReactDOM.findDOMNode(this))
-          .datum(this.props.datas)
-
-        this.radar(chart)
-      })
-    }
-
-    componentDidMount() {
-      this.updateChart()
-    }
-
-    componentWillReceiveProps() {
-      this.updateChart()
-    }
-
-    render() {
-      return (
-        <div className="radarChart">
-          <div id="tooltip" className="hidden">
-            <p>
-              Current value :
-              <span id="value"></span>
-            </p>
-          </div>
-        </div>
+    g.selectAll('.radar-axis-line')
+      .attr('x2', (d, i) =>
+        this.rScale(domain[1] * 1.025) * Math.cos(this.slice(i) - Math.PI * 0.5)
       )
-    }
+      .attr('y2', (d, i) =>
+        this.rScale(domain[1] * 1.025) * Math.sin(this.slice(i) - Math.PI * 0.5)
+      )
+
+    g.selectAll('.radar-axis-label')
+      .attr('x', (d, i) =>
+        this.rScale(domain[1] * 1.15) * Math.cos(this.slice(i) - Math.PI * 0.5)
+      )
+      .attr('y', (d, i) =>
+        this.rScale(domain[1] * 1.15) * Math.sin(this.slice(i) - Math.PI * 0.5)
+      )
+      .attr('text-anchor', function () {
+        const x = d3.select(this).attr('x')
+        return (x > 1) ? 'start' : (x < -1) ? 'end' : 'middle'
+      })
+
+    g.select('.radar-area')
+      .style('fill', this.hexToRgba(this.props.mainColor, 0.6))
+      .transition()
+        .duration(transition)
+        .ease('cubic-out')
+        .attr('d', (d) => this.blob(d))
+
+    g.selectAll('.radar-point')
+      .style('fill', this.hexToRgba(this.props.mainColor, 0.8))
+      .data((d) => d)
+      .on('mouseover', (d) => {
+        d3.select('tooltip')
+          .style('left', `${d3.event.pageX}px`)
+          .style('top', `${d3.event.pageY}px`)
+          .style('opacity', 1)
+          .select('#value')
+          .text(d)
+      })
+      .on('mouseout', () => {
+        d3.select('#tooltip')
+          .style('opacity', 0)
+      })
+      .transition()
+        .duration(transition)
+        .ease('cubic-out')
+        .attr('cx', (d, i) =>
+          this.rScale(d) * Math.cos(this.slice(i) - Math.PI * 0.5)
+        )
+        .attr('cy', (d, i) =>
+          this.rScale(d) * Math.sin(this.slice(i) - Math.PI * 0.5)
+        )
+  }
+
+  updateChart() {
+    const width = this.props.width - 2 * padding
+
+    this.setState({
+      width,
+      radius : width * 0.5,
+    }, () => {
+      const chart = d3
+        .select(ReactDOM.findDOMNode(this))
+        .datum(this.props.datas)
+
+      this.radar(chart)
+    })
+  }
+
+  render() {
+    return (
+      <div className="radarChart">
+        <div id="tooltip" className="hidden">
+          <p>
+            Current value :
+            <span id="value"></span>
+          </p>
+        </div>
+      </div>
+    )
+  }
 }
