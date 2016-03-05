@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import d3 from 'd3'
 
 const padding = 60
@@ -182,7 +183,7 @@ export default class SpiderChart extends Component
       }, () =>
       {
         const chart = d3
-          .select(React.findDOMNode(this))
+          .select(ReactDOM.findDOMNode(this))
           .datum(this.props.datas)
 
         this.radar(chart)

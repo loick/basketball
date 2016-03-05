@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 export default class Switch extends Component
@@ -65,7 +66,7 @@ export default class Switch extends Component
 
   getCursorStyle(index) {
     const current = (index === 1) ? 0 : 1
-    const selected = React.findDOMNode(this.refs[`choice-${current}`])
+    const selected = ReactDOM.findDOMNode(this.refs[`choice-${current}`])
 
     return {
       left  : selected.offsetLeft,

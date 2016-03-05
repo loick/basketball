@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 
 import Ground from './ground'
 import Switch from './switch'
@@ -91,4 +92,4 @@ class Stage extends Component
   }
 }
 
-React.render(<Stage />, document.getElementById('react-render'))
+ReactDOM.render(<Stage />, document.getElementById('react-render'))
