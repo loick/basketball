@@ -33,8 +33,7 @@ That's it :)
 - Different scale on each branch of the spider graph (current : same for each branch)
 - Move some constants to props
 - Use redux or RxJS to handle the chaining animation
-- Add a config editor to avoid spaces error on files..
-- Add linter (postCSS and ES6)
+- Add a postCSS linter
 - Add tests on components (Enzyme from Airbnb)
 - Loader animation to the React Component
 - Attach CSS to its component
