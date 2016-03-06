@@ -45,12 +45,12 @@ class Stage extends Component
   // Will move to player, testing mode here.
   testSpiderChart() {
     const spiderChart = [
-      Math.floor(5 * Math.random() + 1),
-      Math.floor(5 * Math.random() + 1),
-      Math.floor(5 * Math.random() + 1),
-      Math.floor(5 * Math.random() + 1),
-      Math.floor(5 * Math.random() + 1),
-      Math.floor(5 * Math.random() + 1),
+      Math.floor(25 * Math.random() + 1),
+      Math.floor(25 * Math.random() + 1),
+      Math.floor(12 * Math.random() + 1),
+      Math.floor(12 * Math.random() + 1),
+      Math.floor(4 * Math.random() + 1),
+      Math.floor(4 * Math.random() + 1),
     ]
 
     this.setState({ spiderChart })
@@ -72,6 +72,7 @@ class Stage extends Component
 
     return (
       <section>
+        { /*
         <Loader loaded={this.state.isLoaded}>
           <header>
             <h1>Basketball</h1>
@@ -84,7 +85,7 @@ class Stage extends Component
           </header>
          <Ground display={this.state.switchState} team={ this.state.players[team] } />
         </Loader>
-        { /*
+        */ }
           <SpiderChart
             axesColor="#404040"
             bgColor="#FFF"
@@ -92,7 +93,6 @@ class Stage extends Component
             width="500"
             datas={this.state.spiderChart}
           />
-        */ }
       </section>
     )
   }

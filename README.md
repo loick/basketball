@@ -26,11 +26,10 @@ That's it :)
 
 ##TODO
 
-- Remove player focus before switching rotate (currently at the same tume)
+- Remove player focus before switching rotate (currently at the same time)
 - Import / API to get the datas of the players
 - Add the spidergraph to the experiment
 - Enable n graph stats on the same spidergraph (current : only 1)
-- Different scale on each branch of the spider graph (current : same for each branch)
 - Move some constants to props
 - Use redux or RxJS to handle the chaining animation
 - Add a postCSS linter

@@ -2,31 +2,54 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import d3 from 'd3'
 
-const padding = 60
-const transition = 2000
-const domain = [0, 5]
 const axes = [
-  'Player Impact',
-  'Points',
-  'Rebounds',
-  'Assists',
-  'Steals',
-  'Blocks',
+  {
+    name   : 'Player Impact',
+    domain : 25,
+  },
+  {
+    name   : 'Points',
+    domain : 25,
+  },
+  {
+    name   : 'Rebounds',
+    domain : 12,
+  },
+  {
+    name   : 'Assists',
+    domain : 12,
+  },
+  {
+    name   : 'Steals',
+    domain : 4,
+  },
+  {
+    name   : 'Blocks',
+    domain : 4,
+  },
 ]
 
 export default class SpiderChart extends Component
 {
   static propTypes = {
-    datas     : React.PropTypes.array.isRequired,
-    width     : React.PropTypes.string.isRequired,
-    mainColor : React.PropTypes.string.isRequired,
-    bgColor   : React.PropTypes.string.isRequired,
-    axesColor : React.PropTypes.string.isRequired,
+    datas      : React.PropTypes.array.isRequired,
+    width      : React.PropTypes.string.isRequired,
+    mainColor  : React.PropTypes.string.isRequired,
+    bgColor    : React.PropTypes.string.isRequired,
+    axesColor  : React.PropTypes.string.isRequired,
+    transition : React.PropTypes.integer,
+    padding    : React.PropTypes.integer,
+    circles    : React.PropTypes.integer,
+  }
+
+  static defaultProps = {
+    transition : 2000,
+    padding    : 60,
+    circles    : 5,
   }
 
   state = {
     radius : 0,
-    width  : 0,
   }
 
   componentDidMount() {
@@ -40,7 +63,6 @@ export default class SpiderChart extends Component
   hexToRgba(hex, opacity = 1) {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
     const hexFormated = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
-
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexFormated)
 
     return result ? `rgba(${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)},${opacity})` : null
@@ -50,21 +72,26 @@ export default class SpiderChart extends Component
     return Math.PI * 2 * number / axes.length
   }
 
-  rScale(value) {
+  rScale(maxDomain, value) {
     const f = d3.scale.linear()
-      .domain(domain)
+      .domain([0, maxDomain])
       .range([0, this.state.radius])
 
     return value !== undefined ? f(value) : f
   }
 
-  blob(value) {
+  drawArea(value) {
     const f = d3.svg.line.radial()
       .angle((d, i) => this.slice(i))
-      .radius(this.rScale())
+      .radius((d, i) => this.rScale(axes[i].domain, d))
       .interpolate('cardinal-closed')
 
     return f(value)
+  }
+
+  position(currentDomain, axis, index) {
+    const position = Math[axis === 'x' ? 'cos' : 'sin'](this.slice(index) - Math.PI * 0.5)
+    return this.rScale(axes[index].domain, currentDomain) * position
   }
 
   initialize(el) {
@@ -74,7 +101,7 @@ export default class SpiderChart extends Component
     const axisWrap = init.append('g').attr('class', 'radar-axis')
     axisWrap
       .selectAll('.radar-axis-level')
-      .data(d3.range(domain[0], domain[1] + 1).reverse())
+      .data(d3.range(0, parseInt(this.props.circles, 10) + 1).reverse())
       .enter()
         .append('circle')
         .attr('class', 'radar-axis-level')
@@ -95,14 +122,14 @@ export default class SpiderChart extends Component
     axisLines.append('text')
       .style('fill', this.hexToRgba(this.props.axesColor))
       .attr('class', 'radar-axis-label')
-      .text((d, i) => axes[i])
+      .text((d, i) => axes[i].name)
 
     init.selectAll('.radar-area')
       .data([this.props.datas])
       .enter()
         .append('path')
         .attr('class', 'radar-area')
-        .attr('d', (d) => this.blob(d))
+        .attr('d', (d) => this.drawArea(d))
 
     init.selectAll('.radar-point')
       .data(this.props.datas)
@@ -114,12 +141,11 @@ export default class SpiderChart extends Component
         .attr('r', 5)
 
     svg
-      .attr('width', this.state.width + 2 * padding)
-      .attr('height', this.state.width + 2 * padding)
-
+      .attr('width', this.props.width)
+      .attr('height', this.props.width)
 
     const g = svg.select('g')
-      .attr('transform', `translate(${padding + this.state.radius}, ${padding + this.state.radius})`)
+      .attr('transform', `translate(${this.props.padding + this.state.radius}, ${this.props.padding + this.state.radius})`)
 
     return g
   }
@@ -127,41 +153,45 @@ export default class SpiderChart extends Component
   radar(el) {
     const g = this.initialize(el)
 
+    // Circles
     g.selectAll('.radar-axis-level')
-      .attr('r', (d) => this.state.radius / domain[1] * d)
+      .attr('r', (d) => this.state.radius / parseInt(this.props.circles, 10) * d)
 
+    // Mesures
     g.selectAll('.radar-axis-line')
-      .attr('x2', (d, i) =>
-        this.rScale(domain[1] * 1.025) * Math.cos(this.slice(i) - Math.PI * 0.5)
-      )
-      .attr('y2', (d, i) =>
-        this.rScale(domain[1] * 1.025) * Math.sin(this.slice(i) - Math.PI * 0.5)
-      )
+      .attr('x2', (d, i) => this.position(d.domain * 1.025, 'x', i))
+      .attr('y2', (d, i) => this.position(d.domain * 1.025, 'y', i))
 
+    // Labels
     g.selectAll('.radar-axis-label')
-      .attr('x', (d, i) =>
-        this.rScale(domain[1] * 1.15) * Math.cos(this.slice(i) - Math.PI * 0.5)
-      )
-      .attr('y', (d, i) =>
-        this.rScale(domain[1] * 1.15) * Math.sin(this.slice(i) - Math.PI * 0.5)
-      )
+      .attr('x', (d, i) => this.position(d.domain * 1.15, 'x', i))
+      .attr('y', (d, i) => this.position(d.domain * 1.15, 'y', i))
       .attr('text-anchor', function () {
         const x = d3.select(this).attr('x')
-        return (x > 1) ? 'start' : (x < -1) ? 'end' : 'middle'
+        switch (x) {
+          case x > 1:
+            return 'start';
+          case x < -1:
+            return 'end';
+          default:
+            return 'middle';
+        }
       })
 
+    // Drawn area
     g.select('.radar-area')
       .style('fill', this.hexToRgba(this.props.mainColor, 0.6))
       .transition()
-        .duration(transition)
+        .duration(this.props.transition)
         .ease('cubic-out')
-        .attr('d', (d) => this.blob(d))
+        .attr('d', (d) => this.drawArea(d))
 
+    // Dots
     g.selectAll('.radar-point')
       .style('fill', this.hexToRgba(this.props.mainColor, 0.8))
       .data((d) => d)
       .on('mouseover', (d) => {
-        d3.select('tooltip')
+        d3.select('#tooltip')
           .style('left', `${d3.event.pageX}px`)
           .style('top', `${d3.event.pageY}px`)
           .style('opacity', 1)
@@ -173,22 +203,15 @@ export default class SpiderChart extends Component
           .style('opacity', 0)
       })
       .transition()
-        .duration(transition)
+        .duration(this.props.transition)
         .ease('cubic-out')
-        .attr('cx', (d, i) =>
-          this.rScale(d) * Math.cos(this.slice(i) - Math.PI * 0.5)
-        )
-        .attr('cy', (d, i) =>
-          this.rScale(d) * Math.sin(this.slice(i) - Math.PI * 0.5)
-        )
+        .attr('cx', (d, i) => this.position(d, 'x', i))
+        .attr('cy', (d, i) => this.position(d, 'y', i))
   }
 
   updateChart() {
-    const width = this.props.width - 2 * padding
-
     this.setState({
-      width,
-      radius : width * 0.5,
+      radius : (this.props.width - 2 * this.props.padding) * 0.5,
     }, () => {
       const chart = d3
         .select(ReactDOM.findDOMNode(this))
