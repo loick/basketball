@@ -13,24 +13,24 @@ import '../css/app.css'
 class Stage extends Component
 {
   state = {
-    players :
+    players:
     {
-      starters : [],
-      bench    : [],
+      starters: [],
+      bench: [],
     },
-    switchState : 0,
-    isLoaded    : false,
-    spiderChart : [0, 0, 0, 0, 0, 0],
+    switchState: 0,
+    isLoaded: false,
+    spiderChart: [0, 0, 0, 0, 0, 0],
   }
 
   componentDidMount() {
     // AJAX API CALL for the players instead of the import.
     setTimeout(() => {
       this.setState({
-        isLoaded : true,
-        players  : {
-          starters : datas.splice(0, 5),
-          bench    : datas,
+        isLoaded: true,
+        players: {
+          starters: datas.splice(0, 5),
+          bench: datas,
         },
       })
     }, 2000)
@@ -60,13 +60,13 @@ class Stage extends Component
     const team = (this.state.switchState === 0) ? 'starters' : 'bench'
     const switchData = [
       {
-        label : 'Starting 5',
-        value : 0,
+        label: 'Starting 5',
+        value: 0,
       },
       {
-        label : 'Bench',
-        value : 1,
-        off   : true,
+        label: 'Bench',
+        value: 1,
+        off: true,
       },
     ]
 

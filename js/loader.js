@@ -3,14 +3,14 @@ import React, { Component } from 'react'
 export default class Loader extends Component
 {
   static propTypes = {
-    loaded   : React.PropTypes.bool,
-    title    : React.PropTypes.string,
-    children : React.PropTypes.element,
+    loaded: React.PropTypes.bool,
+    title: React.PropTypes.string,
+    children: React.PropTypes.element,
   }
 
   static defaultProps = {
-    title  : 'loading',
-    loaded : false,
+    title: 'loading',
+    loaded: false,
   }
 
   render() {

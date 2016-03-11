@@ -3,25 +3,25 @@ import React, { Component } from 'react'
 import Player from './player'
 
 const delayBase = 50
-const delayInc  = 70
-const defaultZ  = -200
+const delayInc = 70
+const defaultZ = -200
 
 export default class Ground extends Component
 {
   static propTypes = {
-    display : React.PropTypes.number,
-    team    : React.PropTypes.array.isRequired,
+    display: React.PropTypes.number,
+    team: React.PropTypes.array.isRequired,
   }
 
   state = {
-    rotation           : 0,
-    team               : [],
-    currentPlayerFocus : null,
-    worldModifier      : {
-      transform : {
-        x : 0,
-        y : 0,
-        z : -90,
+    rotation: 0,
+    team: [],
+    currentPlayerFocus: null,
+    worldModifier: {
+      transform: {
+        x: 0,
+        y: 0,
+        z: -90,
       },
     },
   }
@@ -32,12 +32,12 @@ export default class Ground extends Component
 
     setTimeout(() => {
       this.setState({
-        worldModifier : {
-          opacity   : 1,
-          transform : {
-            x : 0,
-            y : 0,
-            z : defaultZ,
+        worldModifier: {
+          opacity: 1,
+          transform: {
+            x: 0,
+            y: 0,
+            z: defaultZ,
           },
         },
       })
@@ -56,8 +56,8 @@ export default class Ground extends Component
         // Rotate the ground
         this.setState(
           {
-            team     : props.team,
-            rotation : (props.display === 0) ? 0 : 180,
+            team: props.team,
+            rotation: (props.display === 0) ? 0 : 180,
           }, () =>
             setTimeout(() => {
               // Display players

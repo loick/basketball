@@ -4,52 +4,52 @@ import d3 from 'd3'
 
 const axes = [
   {
-    name   : 'Player Impact',
-    domain : 25,
+    name: 'Player Impact',
+    domain: 25,
   },
   {
-    name   : 'Points',
-    domain : 25,
+    name: 'Points',
+    domain: 25,
   },
   {
-    name   : 'Rebounds',
-    domain : 12,
+    name: 'Rebounds',
+    domain: 12,
   },
   {
-    name   : 'Assists',
-    domain : 12,
+    name: 'Assists',
+    domain: 12,
   },
   {
-    name   : 'Steals',
-    domain : 4,
+    name: 'Steals',
+    domain: 4,
   },
   {
-    name   : 'Blocks',
-    domain : 4,
+    name: 'Blocks',
+    domain: 4,
   },
 ]
 
 export default class SpiderChart extends Component
 {
   static propTypes = {
-    datas      : React.PropTypes.array.isRequired,
-    width      : React.PropTypes.string.isRequired,
-    mainColor  : React.PropTypes.string.isRequired,
-    bgColor    : React.PropTypes.string.isRequired,
-    axesColor  : React.PropTypes.string.isRequired,
-    transition : React.PropTypes.integer,
-    padding    : React.PropTypes.integer,
-    circles    : React.PropTypes.integer,
+    datas: React.PropTypes.array.isRequired,
+    width: React.PropTypes.string.isRequired,
+    mainColor: React.PropTypes.string.isRequired,
+    bgColor: React.PropTypes.string.isRequired,
+    axesColor: React.PropTypes.string.isRequired,
+    transition: React.PropTypes.integer,
+    padding: React.PropTypes.integer,
+    circles: React.PropTypes.integer,
   }
 
   static defaultProps = {
-    transition : 2000,
-    padding    : 60,
-    circles    : 5,
+    transition: 2000,
+    padding: 60,
+    circles: 5,
   }
 
   state = {
-    radius : 0,
+    radius: 0,
   }
 
   componentDidMount() {
@@ -211,7 +211,7 @@ export default class SpiderChart extends Component
 
   updateChart() {
     this.setState({
-      radius : (this.props.width - 2 * this.props.padding) * 0.5,
+      radius: (this.props.width - 2 * this.props.padding) * 0.5,
     }, () => {
       const chart = d3
         .select(ReactDOM.findDOMNode(this))

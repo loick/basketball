@@ -2,18 +2,6 @@
 	"parser": "babel-eslint",
 	"rules": {
 	    "semi": 0,
-	    "key-spacing": [2, {
-		    "singleLine": {
-		        "beforeColon": false,
-		        "afterColon": true
-		    },
-		    "multiLine": {
-		        "beforeColon": true,
-		        "afterColon": true,
-		        "align": "colon"
-		    }
-		}],
-		"no-multi-spaces" : [2, { exceptions: { "VariableDeclarator": true } }]
 	},
 	"extends": "airbnb",
 }

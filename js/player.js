@@ -4,22 +4,22 @@ import classNames from 'classnames'
 export default class Player extends Component
 {
   static propTypes = {
-    name     : React.PropTypes.string,
-    asset    : React.PropTypes.string,
-    height   : React.PropTypes.string,
-    origin   : React.PropTypes.string,
-    age      : React.PropTypes.integer,
-    lnb      : React.PropTypes.integer,
-    pos      : React.PropTypes.integer,
-    id       : React.PropTypes.integer,
-    current  : React.PropTypes.boolean,
-    animateY : React.PropTypes.integer,
-    style    : React.PropTypes.object,
-    onClick  : React.PropTypes.func,
+    name: React.PropTypes.string,
+    asset: React.PropTypes.string,
+    height: React.PropTypes.string,
+    origin: React.PropTypes.string,
+    age: React.PropTypes.integer,
+    lnb: React.PropTypes.integer,
+    pos: React.PropTypes.integer,
+    id: React.PropTypes.integer,
+    current: React.PropTypes.boolean,
+    animateY: React.PropTypes.integer,
+    style: React.PropTypes.object,
+    onClick: React.PropTypes.func,
   }
 
   static defaultProps = {
-    onClick : () => {},
+    onClick: () => {},
   }
 
   componentDidMount() {
