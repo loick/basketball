@@ -83,15 +83,21 @@ export default class SpiderChart extends Component
   drawArea(value) {
     const f = d3.svg.line.radial()
       .angle((d, i) => this.slice(i))
-      .radius((d, i) => this.rScale(axes[i].domain, d))
+      .radius((d, i) => this.rScale(this.formatDomain(axes[i].domain, d), d))
       .interpolate('cardinal-closed')
 
     return f(value)
   }
 
-  position(currentDomain, axis, index) {
+  formatDomain(currentDomain, maxDomain) {
+    const domain = Math.max(currentDomain, maxDomain)
+    return domain > 0 ? domain : 0
+  }
+
+  position(currentDomain, axis, index, padding = 1) {
     const position = Math[axis === 'x' ? 'cos' : 'sin'](this.slice(index) - Math.PI * 0.5)
-    return this.rScale(axes[index].domain, currentDomain) * position
+
+    return this.rScale(this.formatDomain(axes[index].domain, currentDomain) * padding, currentDomain) * position
   }
 
   initialize(el) {
@@ -159,13 +165,13 @@ export default class SpiderChart extends Component
 
     // Mesures
     g.selectAll('.radar-axis-line')
-      .attr('x2', (d, i) => this.position(d.domain * 1.025, 'x', i))
-      .attr('y2', (d, i) => this.position(d.domain * 1.025, 'y', i))
+      .attr('x2', (d, i) => this.position(d.domain, 'x', i, 0.98))
+      .attr('y2', (d, i) => this.position(d.domain, 'y', i, 0.98))
 
     // Labels
     g.selectAll('.radar-axis-label')
-      .attr('x', (d, i) => this.position(d.domain * 1.15, 'x', i))
-      .attr('y', (d, i) => this.position(d.domain * 1.15, 'y', i))
+      .attr('x', (d, i) => this.position(d.domain, 'x', i, 0.80))
+      .attr('y', (d, i) => this.position(d.domain, 'y', i, 0.80))
       .attr('text-anchor', function () {
         const x = d3.select(this).attr('x')
         switch (x) {
