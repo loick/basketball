@@ -1,0 +1,62 @@
+.toggle {
+  display: inline-block;
+  position: relative;
+  background-color: $bgcolor;
+  border-radius: 1em;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background .3s ease,
+              opacity 0.8s 0.1s ease-in,
+              transform 0.8s 0.1s ease-in;
+  opacity:0;
+
+  animation-name: dropToggle;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.8s;
+  animation-delay:0.1s;
+  animation-fill-mode: forwards;
+
+  &__choice {
+    color: $fgColor;
+    height: 100%;
+    float: left;
+    padding: 0.4em;
+    z-index: 1;
+    -webkit-touch-callout: none;
+    user-select: none;
+
+    &:first-child { padding-left: 0.8em; }
+    &:nth-child(2) { padding-right: 0.8em; }
+  }
+
+  &__slider {
+    display: block;
+    position: absolute;
+    top:0;
+    height: 100%;
+    border: 0.2em solid $bgcolor;
+    border-radius: 1em;
+    background-color: $sliderColor;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  &.toggle-off {
+    background-color: $bgcolorOff;
+
+    .toggle__slider { border: 0.2em solid $bgcolorOff; }
+  }
+}
+
+
+@keyframes dropToggle {
+  0% {
+    opacity: 0;
+    transform:translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform:translateY(0);
+  }
+}

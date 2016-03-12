@@ -59,59 +59,6 @@ header {
   transition:all 0.8s ease-in-out;
 }
 
-.toggle {
-  display: inline-block;
-  background: $bgcolor;
-  position: relative;
-  border-radius: 30px;
-  cursor: pointer;
-  overflow: hidden;
-  font-size: 14px;
-  transition: background .3s ease;
-  opacity:0;
-
-  animation-name: dropHeader;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.8s;
-  animation-delay:0.1s;
-  animation-fill-mode: forwards;
-
-  &__choice {
-    color: $fgColor;
-    height: 100%;
-    float: left;
-    padding: 5px;
-    z-index: 1;
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    user-select: none;
-
-    &:first-child { padding-left: 10px; }
-    &:nth-child(2) { padding-right:10px; }
-  }
-
-  &__slider {
-    z-index: 2;
-    height: 100%;
-    width: 40px;
-    border: 3px solid $bgcolor;
-    background-color: $sliderColor;
-    display: block;
-    cursor: pointer;
-    position: absolute;
-    z-index: 1;
-    border-radius: 30px;
-    transition: all 0.3s ease;
-  }
-
-  &.toggle-off {
-    background: $bgcolorOff;
-
-    .toggle__slider { border: 3px solid $bgcolorOff; }
-  }
-}
-
 .team {
   position: absolute;
   top: 0;

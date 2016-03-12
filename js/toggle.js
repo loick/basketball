@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
-export default class Switch extends Component
+import '../css/toggle.css'
+
+export default class Toggle extends Component
 {
   static propTypes = {
     data: React.PropTypes.array,

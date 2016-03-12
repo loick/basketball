@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import Ground from './ground'
-import Switch from './switch'
+import Toggle from './toggle'
 import Loader from './loader'
 import SpiderChart from './spiderchart'
 
@@ -72,11 +72,10 @@ class Stage extends Component
 
     return (
       <section>
-        { /*
         <Loader loaded={this.state.isLoaded}>
           <header>
             <h1>Basketball</h1>
-            <Switch
+            <Toggle
               onChange={::this.onChange}
               name="rotate"
               data={switchData}
@@ -85,7 +84,7 @@ class Stage extends Component
           </header>
          <Ground display={this.state.switchState} team={ this.state.players[team] } />
         </Loader>
-        */ }
+        { /*
           <SpiderChart
             axesColor="#404040"
             bgColor="#FFF"
@@ -93,6 +92,7 @@ class Stage extends Component
             width="500"
             datas={this.state.spiderChart}
           />
+        */ }
       </section>
     )
   }
