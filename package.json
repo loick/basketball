@@ -17,6 +17,8 @@
     "babel-eslint": "^5.0.0",
     "classnames": "^2.2.3",
     "css-loader": "^0.23.1",
+    "csslint": "^0.10.0",
+    "csslint-loader": "^0.2.1",
     "cssnano": "^3.5.2",
     "d3": "^3.5.16",
     "eslint": "2.2.0",
