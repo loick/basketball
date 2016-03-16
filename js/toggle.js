@@ -80,21 +80,19 @@ export default class Toggle extends Component
     const className = classNames('toggle', this.props.className, { 'toggle-off': this.state.off })
 
     return (
-      <div style={ this.props.style }>
-          <div className={className} onClick={::this.handleClick}>
-            {
-              this.state.datas.map((data, i) =>
-                <span key={i} ref={`choice-${i}`} className="toggle__choice">{data.label}</span>
-              )
-            }
-            <div className="toggle__slider" style={this.state.cursorStyle} />
-            <input
-              type="hidden"
-              name={this.props.name}
-              defaultValue={this.state.datas[this.props.selectedIndex].value}
-              value={this.state.value}
-            />
-          </div>
+      <div className={className} onClick={::this.handleClick} style={ this.props.style }>
+        {
+          this.state.datas.map((data, i) =>
+            <span key={i} ref={`choice-${i}`} className="toggle__choice">{data.label}</span>
+          )
+        }
+        <div className="toggle__slider" style={this.state.cursorStyle} />
+        <input
+          type="hidden"
+          name={this.props.name}
+          defaultValue={this.state.datas[this.props.selectedIndex].value}
+          value={this.state.value}
+        />
       </div>
     )
   }

@@ -13,7 +13,7 @@ export default class Player extends Component
     pos: React.PropTypes.integer,
     id: React.PropTypes.integer,
     current: React.PropTypes.boolean,
-    animateY: React.PropTypes.integer,
+    animateZ: React.PropTypes.integer,
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,
   }
@@ -65,8 +65,8 @@ export default class Player extends Component
         coords.z = 0
     }
 
-    if (this.props.animateY) {
-      coords.z += this.props.animateY
+    if (this.props.animateZ) {
+      coords.z += this.props.animateZ
     }
 
     return coords

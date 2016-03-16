@@ -96,7 +96,7 @@ export default class Ground extends Component
 
     setTimeout(() => {
       team[playerId].style = { opacity: drop ? 1 : 0 }
-      team[playerId].animateY = drop ? 40 : 0
+      team[playerId].animateZ = drop ? 40 : 0
 
       this.setState({ team })
     }, delay)

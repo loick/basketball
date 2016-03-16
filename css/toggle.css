@@ -21,13 +21,11 @@
     color: $fgColor;
     height: 100%;
     float: left;
-    padding: 0.4em;
+    padding: 0.4em 0.4em 0.4em 0.8em;
     z-index: 1;
-    -webkit-touch-callout: none;
     user-select: none;
 
-    &:first-child { padding-left: 0.8em; }
-    &:nth-child(2) { padding-right: 0.8em; }
+    & + .toggle__choice { padding: 0.4em 0.8em 0.4em 0.4em }
   }
 
   &__slider {

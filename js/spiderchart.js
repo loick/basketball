@@ -64,8 +64,9 @@ export default class SpiderChart extends Component
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
     const hexFormated = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexFormated)
+    const rgba = [result[1], result[2], result[3]]
 
-    return result ? `rgba(${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)},${opacity})` : null
+    return result ? `rgba(${rgba.map((el) => parseInt(el, 16)).join(',')},${opacity})` : null
   }
 
   slice(number) {
@@ -96,8 +97,9 @@ export default class SpiderChart extends Component
 
   position(currentDomain, axis, index, padding = 1) {
     const position = Math[axis === 'x' ? 'cos' : 'sin'](this.slice(index) - Math.PI * 0.5)
+    const domain = this.formatDomain(axes[index].domain, currentDomain) * padding
 
-    return this.rScale(this.formatDomain(axes[index].domain, currentDomain) * padding, currentDomain) * position
+    return this.rScale(domain, currentDomain) * position
   }
 
   initialize(el) {
@@ -150,8 +152,9 @@ export default class SpiderChart extends Component
       .attr('width', this.props.width)
       .attr('height', this.props.width)
 
+    const translate = this.props.padding + this.state.radius
     const g = svg.select('g')
-      .attr('transform', `translate(${this.props.padding + this.state.radius}, ${this.props.padding + this.state.radius})`)
+      .attr('transform', `translate(${translate}, ${translate})`)
 
     return g
   }
@@ -170,17 +173,17 @@ export default class SpiderChart extends Component
 
     // Labels
     g.selectAll('.radar-axis-label')
-      .attr('x', (d, i) => this.position(d.domain, 'x', i, 0.80))
-      .attr('y', (d, i) => this.position(d.domain, 'y', i, 0.80))
-      .attr('text-anchor', function () {
-        const x = d3.select(this).attr('x')
+      .attr('x', (d, i) => this.position(d.domain, 'x', i, 0.85))
+      .attr('y', (d, i) => this.position(d.domain, 'y', i, 0.9))
+      .attr('text-anchor', (d, i) => {
+        const x = this.position(d.domain, 'x', i, 0.85)
         switch (x) {
           case x > 1:
-            return 'start';
+            return 'start'
           case x < -1:
-            return 'end';
+            return 'end'
           default:
-            return 'middle';
+            return 'middle'
         }
       })
 
