@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 
+import Img from './img'
+
 export default class Player extends Component
 {
   static propTypes = {
@@ -12,23 +14,55 @@ export default class Player extends Component
     lnb: React.PropTypes.number,
     pos: React.PropTypes.number,
     id: React.PropTypes.number,
+    nbPlayers: React.PropTypes.number,
     current: React.PropTypes.bool,
-    animateZ: React.PropTypes.number,
-    style: React.PropTypes.object,
+    dropped: React.PropTypes.bool,
     onClick: React.PropTypes.func,
+    onPlayerHidden: React.PropTypes.func,
   }
 
   static defaultProps = {
     onClick: () => {},
+    onPlayerHidden: () => {},
+  }
+
+  state = {
+    initialized: false,
+    dropped: false,
   }
 
   componentDidMount() {
     document.addEventListener('click', ::this.handleDocumentClick)
+
+    this.dropPlayer(true, 1000).then(() => this.setState({ initialized: true }))
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.drop !== this.state.dropped && this.state.initialized) {
+      this.dropPlayer(props.drop).then(() => {
+        if (!props.drop && this.props.id === this.props.nbPlayers - 1) {
+          this.props.onPlayerHidden()
+        }
+      })
+    }
   }
 
   onClick() {
     const { x, z } = this.position()
     this.props.onClick(this.props.id, - x - 10, - z)
+  }
+
+  dropPlayer(dropped, extraDelay = 0) {
+    return new Promise((resolve) => {
+      const delayBase = 50 + extraDelay
+      const delayInc = 70
+      const delay = delayBase + this.props.id * delayInc
+
+      setTimeout(() => {
+        this.setState({ dropped })
+        resolve()
+      }, delay)
+    })
   }
 
   handleDocumentClick(event) {
@@ -65,8 +99,8 @@ export default class Player extends Component
         coords.z = 0
     }
 
-    if (this.props.animateZ) {
-      coords.z += this.props.animateZ
+    if (this.state.dropped) {
+      coords.z += 40
     }
 
     return coords
@@ -105,10 +139,11 @@ export default class Player extends Component
   }
 
   render() {
-    const style = this.props.style || {}
+    const style = {}
     const { x, z } = this.position()
 
     style.transform = `translateX(${x}px) translateY(0px) translateZ(${z}px)`
+    style.opacity = this.state.dropped ? 1 : 0
 
     return (
       <div
@@ -119,7 +154,7 @@ export default class Player extends Component
       >
         { this.props.current && this.renderCard() }
         <div className="player__img">
-          <img src={ `images/players/${this.props.asset}` } />
+          <Img title={this.props.name} src={this.props.asset} />
         </div>
         <div className="player__label">
           <span>{ this.props.name }</span>

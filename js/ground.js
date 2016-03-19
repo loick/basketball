@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 
 import Player from './player'
 
-const delayBase = 50
-const delayInc = 70
 const defaultZ = -200
 
 export default class Ground extends Component
@@ -14,25 +13,24 @@ export default class Ground extends Component
   }
 
   state = {
-    rotation: 0,
     team: [],
+    drop: true,
+    rotation: 0,
     currentPlayerFocus: null,
     worldModifier: {
       opacity: 0,
       transform: {
         x: 0,
         y: 0,
-        z: -90,
+        z: 0,
       },
     },
   }
 
   componentDidMount() {
-    this.setState({ team: this.props.team })
-    setTimeout(::this.animatePlayers, 1000)
-
     setTimeout(() => {
       this.setState({
+        team: this.props.team,
         worldModifier: {
           opacity: 1,
           transform: {
@@ -43,42 +41,40 @@ export default class Ground extends Component
         },
       })
     }, 400)
+
+    ReactDOM
+      .findDOMNode(this.refs.court)
+      .addEventListener('transitionend', ::this.onCourtTransitionEnd, false)
   }
 
   componentWillReceiveProps(props) {
     // Change team
     if (this.props.display !== props.display) {
-      // TODO : PROMISES
-      this.animatePlayers(0)
-
-      setTimeout(() =>
-
-        // Change players
-        // Rotate the ground
-        this.setState(
-          {
-            team: props.team,
-            rotation: (props.display === 0) ? 0 : 180,
-          }, () =>
-            setTimeout(() => {
-              // Display players
-              this.animatePlayers(1)
-            }, 500)
-          )
-
-      , 500)
+      // Should unfocus player first
+      this.setState({ drop: false })
     }
   }
 
-  onPlayerClick(id, playerX = 0, playerZ = 0, y = 0) {
-    const worldModifier = this.state.worldModifier
+  onCourtTransitionEnd() {
+    this.setState({ drop: true })
+  }
 
+  onPlayersRemoved() {
+    this.setState({
+      rotation: (this.props.display === 0) ? 0 : 180,
+      team: this.props.team,
+    })
+  }
+
+  onPlayerClick(id, playerX = 0, playerZ = 0, y = 0) {
     const currentPlayerFocus = this.state.currentPlayerFocus === id ? null : id
 
     const x = (currentPlayerFocus === null) ? 0 : playerX
     const z = (currentPlayerFocus === null) ? defaultZ : playerZ
 
+    const worldModifier = {}
     worldModifier.transform = { x, y, z }
+    worldModifier.opacity = this.state.worldModifier.opacity
 
     this.setState({ currentPlayerFocus, worldModifier })
   }
@@ -93,27 +89,6 @@ export default class Ground extends Component
     , '');
 
     return styleWorld
-  }
-
-  animatePlayers(drop = 1) {
-    for (const playerId in this.state.team) {
-      if ({}.hasOwnProperty.call(this.state.team, playerId)) {
-        this.updatePlayerStyle(playerId, drop)
-      }
-    }
-  }
-
-  updatePlayerStyle(playerId, drop) {
-    const delay = delayBase + playerId * delayInc
-    const team = this.state.team
-
-    // TODO : drop props
-    setTimeout(() => {
-      team[playerId].style = { opacity: drop ? 1 : 0 }
-      team[playerId].animateZ = drop ? 40 : 0
-
-      this.setState({ team })
-    }, delay)
   }
 
   renderTeamGround(reverse = '') {
@@ -140,7 +115,7 @@ export default class Ground extends Component
 
     return (
       <div className="stage">
-        <div className="world" style={ ::this.getWorldStyle() }>
+        <div className="world" style={ this.getWorldStyle() }>
           <div className="team">
             {
               this.state.team.map((datas, index) =>
@@ -148,13 +123,16 @@ export default class Ground extends Component
                   {...datas}
                   key={index}
                   id={index}
+                  nbPlayers={this.state.team.length}
+                  drop={this.state.drop}
                   onClick={::this.onPlayerClick}
+                  onPlayerHidden={::this.onPlayersRemoved}
                   current={this.state.currentPlayerFocus === index}
                 />
               )
             }
           </div>
-          <div className="court" style={ styleTerrain }>
+          <div ref="court" className="court" style={ styleTerrain }>
             <div className="field">
               <div className="field__line--outline"></div>
               <div className="field__line--circle"></div>

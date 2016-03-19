@@ -35,7 +35,7 @@ class Stage extends Component
       })
     }, 2000)
 
-    setInterval(::this.testSpiderChart, 2000)
+    // setInterval(::this.testSpiderChart, 2000)
   }
 
   onChange(switchState) {
