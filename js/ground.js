@@ -18,6 +18,7 @@ export default class Ground extends Component
     team: [],
     currentPlayerFocus: null,
     worldModifier: {
+      opacity: 0,
       transform: {
         x: 0,
         y: 0,
@@ -82,6 +83,18 @@ export default class Ground extends Component
     this.setState({ currentPlayerFocus, worldModifier })
   }
 
+  getWorldStyle() {
+    const styleWorld = {}
+
+    styleWorld.opacity = this.state.worldModifier.opacity
+
+    styleWorld.transform = Object.keys(this.state.worldModifier.transform).reduce((prev, axis) =>
+      `${prev} translate${axis.toUpperCase()}(${this.state.worldModifier.transform[axis]}px)`
+    , '');
+
+    return styleWorld
+  }
+
   animatePlayers(drop = 1) {
     for (const playerId in this.state.team) {
       if ({}.hasOwnProperty.call(this.state.team, playerId)) {
@@ -94,6 +107,7 @@ export default class Ground extends Component
     const delay = delayBase + playerId * delayInc
     const team = this.state.team
 
+    // TODO : drop props
     setTimeout(() => {
       team[playerId].style = { opacity: drop ? 1 : 0 }
       team[playerId].animateZ = drop ? 40 : 0
@@ -121,15 +135,12 @@ export default class Ground extends Component
   }
 
   render() {
-    const styleWorld = this.state.worldModifier
-    styleWorld.transform = `translateX(${styleWorld.transform.x}px) translateY(${styleWorld.transform.y}px) translateZ(${styleWorld.transform.z}px)`
-
     const styleTerrain = {}
     styleTerrain.transform = `rotateY(${this.state.rotation}deg)`
 
     return (
       <div className="stage">
-        <div className="world" style={ styleWorld }>
+        <div className="world" style={ ::this.getWorldStyle() }>
           <div className="team">
             {
               this.state.team.map((datas, index) =>
