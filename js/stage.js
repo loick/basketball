@@ -6,7 +6,7 @@ import Toggle from './toggle'
 import Loader from './loader'
 import SpiderChart from './spiderchart'
 
-import datas from './datas_players.js'
+import datas from '../datas/datas_players.js'
 
 import '../css/app.css'
 
