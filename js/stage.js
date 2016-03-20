@@ -57,7 +57,6 @@ class Stage extends Component
   }
 
   render() {
-    const team = (this.state.switchState === 0) ? 'starters' : 'bench'
     const switchData = [
       {
         label: 'Starting 5',
@@ -82,7 +81,11 @@ class Stage extends Component
               selectedIndex={this.state.current_display}
             />
           </header>
-         <Ground display={this.state.switchState} team={ this.state.players[team] } />
+          <Ground
+            display={this.state.switchState}
+            starters={this.state.players.starters}
+            bench={this.state.players.bench}
+          />
         </Loader>
         { /*
           <SpiderChart

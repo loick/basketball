@@ -9,11 +9,12 @@ export default class Ground extends Component
 {
   static propTypes = {
     display: React.PropTypes.number,
-    team: React.PropTypes.array.isRequired,
+    starters: React.PropTypes.array,
+    bench: React.PropTypes.array,
   }
 
   state = {
-    team: [],
+    showStarters: true,
     drop: true,
     rotation: 0,
     currentPlayerFocus: null,
@@ -30,7 +31,6 @@ export default class Ground extends Component
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        team: this.props.team,
         worldModifier: {
           opacity: 1,
           transform: {
@@ -62,7 +62,7 @@ export default class Ground extends Component
   onPlayersRemoved() {
     this.setState({
       rotation: (this.props.display === 0) ? 0 : 180,
-      team: this.props.team,
+      showStarters: !this.state.showStarters,
     })
   }
 
@@ -109,6 +109,21 @@ export default class Ground extends Component
     )
   }
 
+  renderPlayer(datas, index) {
+    return (
+      <Player
+        {...datas}
+        key={index}
+        id={index}
+        nbPlayers={ this.state.showStarters ? this.props.starters.length : this.props.bench.length}
+        drop={this.state.drop}
+        onClick={::this.onPlayerClick}
+        onPlayerHidden={::this.onPlayersRemoved}
+        current={this.state.currentPlayerFocus === index}
+      />
+    )
+  }
+
   render() {
     const styleTerrain = {}
     styleTerrain.transform = `rotateY(${this.state.rotation}deg)`
@@ -117,20 +132,16 @@ export default class Ground extends Component
       <div className="stage">
         <div className="world" style={ this.getWorldStyle() }>
           <div className="team">
-            {
-              this.state.team.map((datas, index) =>
-                <Player
-                  {...datas}
-                  key={index}
-                  id={index}
-                  nbPlayers={this.state.team.length}
-                  drop={this.state.drop}
-                  onClick={::this.onPlayerClick}
-                  onPlayerHidden={::this.onPlayersRemoved}
-                  current={this.state.currentPlayerFocus === index}
-                />
-              )
-            }
+            <div className="starters">
+              {
+                this.state.showStarters && this.props.starters.map(::this.renderPlayer)
+              }
+            </div>
+            <div className="bench">
+              {
+                !this.state.showStarters && this.props.bench.map(::this.renderPlayer)
+              }
+            </div>
           </div>
           <div ref="court" className="court" style={ styleTerrain }>
             <div className="field">
