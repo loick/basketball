@@ -47,6 +47,10 @@ export default class Player extends Component
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+  }
+
   onClick() {
     const { x, z } = this.position()
     this.props.onClick(this.props.id, - x - 10, - z)
@@ -58,7 +62,7 @@ export default class Player extends Component
       const delayInc = 70
       const delay = delayBase + this.props.id * delayInc
 
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.setState({ dropped })
         resolve()
       }, delay)

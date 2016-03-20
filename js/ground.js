@@ -55,15 +55,26 @@ export default class Ground extends Component
     }
   }
 
+  componentWillUnmount() {
+    ReactDOM
+      .findDOMNode(this.refs.court)
+      .removeEventListener('transitionend', ::this.onCourtTransitionEnd, false)
+  }
+
   onCourtTransitionEnd() {
     this.setState({ drop: true })
   }
 
   onPlayersRemoved() {
-    this.setState({
-      rotation: (this.props.display === 0) ? 0 : 180,
-      showStarters: !this.state.showStarters,
-    })
+    setTimeout(
+      () => {
+        this.setState({
+          rotation: (this.props.display === 0) ? 0 : 180,
+          showStarters: !this.state.showStarters,
+        })
+      },
+      200
+    )
   }
 
   onPlayerClick(id, playerX = 0, playerZ = 0, y = 0) {
