@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+// import Select from 'react-select'
+// https://github.com/JedWatson/react-select
 
 import Ground from './ground'
 import Toggle from './toggle'
 import Loader from './loader'
-import SpiderChart from './spiderchart'
+// import SpiderChart from './spiderchart'
 
 import datas from '../datas/datas_players.js'
 
